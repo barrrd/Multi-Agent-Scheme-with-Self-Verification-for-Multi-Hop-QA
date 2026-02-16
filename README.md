@@ -1,5 +1,9 @@
 # 🤖 Multi-Agent Scheme with Self-Verification for Multi-Hop Q&A
 
+> **Access Key Materials**
+> - [📄 **Research Paper (PDF)**](./docs/Paper.pdf)
+> - [🖼️ **Research Poster (PNG)**](./docs/Poster.PNG)
+
 A specialized multi-agent system designed to mitigate hallucinations and enhance accuracy in complex Multi-Hop QA, featuring a dynamic correction feedback loop.
 
 ## 📌 Abstract (Thesis Overview)
