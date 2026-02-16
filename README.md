@@ -9,6 +9,7 @@ Large Language Models (LLMs) often struggle with information retrieval failures 
 The system adopts a layered architecture, categorizing agents into the **Cognitive & Control Layer** and the **Retrieval & Execution Layer**.
 
 ![System Architecture](./image/System%20Architecture.png)
+
 *Figure 1. Overview of the proposed Multi-Agent System and Shared State Memory.*
 
 ### 1. Cognitive & Control Layer (The Brain)
@@ -32,6 +33,8 @@ The Reasoner evaluates the **logical sufficiency** of evidence immediately after
 Triggered by structural information voids or planning errors, this loop utilizes LangGraph's cyclic structure.
 
 ![Dynamic Feedback Loop](./image/Dynamic%20Feedback%20Loop.png)
+
+
 *Figure 2. Dynamic Correction Feedback Loop between Planner and Reasoner.*
 
 **Correction Triggers:**
