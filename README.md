@@ -2,6 +2,9 @@
 
 A specialized multi-agent system designed to mitigate hallucinations and enhance accuracy in complex Multi-Hop QA, featuring a dynamic correction feedback loop.
 
+## 📌 Abstract (Thesis Overview)
+Large Language Models (LLMs) often struggle with information retrieval failures and hallucinations in multi-hop QA that requires complex reasoning across multiple documents. While the ReAct framework addresses some of these issues, its linear execution structure propagates initial retrieval errors to subsequent steps without correction, leading to final answer failures. Furthermore, the lack of a self-verification mechanism degrades system robustness. 
+
 ## 🏗️ Architecture & 5 Specialized Agents
 The system adopts a layered architecture, categorizing agents into the **Cognitive & Control Layer** and the **Retrieval & Execution Layer**.
 
