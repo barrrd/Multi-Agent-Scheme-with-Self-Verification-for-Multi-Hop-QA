@@ -1,22 +1,44 @@
 # 🤖 Multi-Agent Scheme with Self-Verification for Multi-Hop Q&A
 
-A multi-agent system designed to mitigate hallucination and enhance information accuracy in complex Multi-Hop Question Answering (QA) tasks, leveraging LangGraph and the OpenAI API with a dynamic correction feedback loop.
+A specialized multi-agent system designed to mitigate hallucinations and enhance accuracy in complex Multi-Hop QA, featuring a dynamic correction feedback loop.
 
-## 📌 Abstract (Project Overview)
-Large Language Models (LLMs) often struggle with information retrieval failures and hallucinations in multi-hop QA that requires complex reasoning across multiple documents. While the ReAct framework addresses some of these issues, its linear execution structure propagates initial retrieval errors to subsequent steps without correction, leading to final answer failures. Furthermore, the lack of a self-verification mechanism degrades system robustness. 
+## 🏗️ Architecture & 5 Specialized Agents
+The system adopts a layered architecture, categorizing agents into the **Cognitive & Control Layer** and the **Retrieval & Execution Layer**.
 
-To overcome this, we propose a **multi-agent scheme equipped with a Self-Verification mechanism**. Five specialized agents (Planner, Reasoner, Searcher, Extractor, and Answer) collaborate and evaluate the reliability of collected information during the self-verification phase. Through a **dynamic correction feedback loop (cyclic graph structure)** that either proceeds with reasoning or modifies the search strategy based on verification results, errors are proactively blocked, enhancing the capacity for accurate answer generation. 
+![System Architecture](./image/System%20Architecture.png)
+*Figure 1. Overview of the proposed Multi-Agent System and Shared State Memory.*
 
-Experimental results on the HotpotQA dataset demonstrate that our proposed system achieves an **11.00-point improvement in Exact Match (EM) (a 23.9% increase) and a 15.07-point improvement in F1 score** compared to the baseline ReAct framework. This study proves that structured interaction and verification procedures among specialized agents are essential for improving the accuracy and reliability of multi-hop reasoning.
+### 1. Cognitive & Control Layer (The Brain)
+- **🧠 Planner**: Decomposes complex questions into atomic sub-goals. It dynamically resets search paths or modifies strategies upon receiving a **Correction Request**.
+- **⚙️ Reasoner**: The central control tower managing the execution flow and delegating tasks. It performs **Self-Verification** to ensure information sufficiency.
+- **🎯 Answer**: Synthesizes verified evidence into a final, clear answer, following strict rules to eliminate unnecessary descriptions.
 
-## 🏗️ Architecture & 5 Agents
-This system is designed based on LangGraph and consists of five specialized agents (Nodes):
+### 2. Retrieval & Execution Layer (The Hands & Feet)
+- **🔍 Searcher**: Identifies relevant documents within complex contexts (e.g., HotpotQA) and tracks entities across steps.
+- **📄 Extractor**: Precisely extracts factual sentences from selected documents to minimize noise and hallucination.
 
-- **🧠 Planner**: Analyzes the user's question and decomposes it into multi-step sub-goals. If a search fails, it dynamically re-plans a new search strategy while preserving meaningful clues found in previous steps.
-- **⚙️ Reasoner**: Acts as the control tower of the system. It performs self-verification to determine if the collected evidence is sufficient to achieve the current step's goal. Based on the result, it decides whether to proceed to the next step or request a re-search/re-plan.
-- **🔍 Searcher**: Identifies and selects the most relevant document for the current reasoning step from the given document pool (Context).
-- **📄 Extractor**: Precisely extracts only the core evidence (1-2 sentences) relevant to the question from the extensive text of the selected document.
-- **🎯 Answer**: Synthesizes the verified evidence collected across all steps to derive the final answer and its reasoning process.
+---
+
+## 🛡️ Self-Verification & Dynamic Correction
+To prevent error propagation typical in linear frameworks like ReAct, this system incorporates a cyclic feedback loop.
+
+### 🔍 Self-Verification Mechanism
+The Reasoner evaluates the **logical sufficiency** of evidence immediately after extraction. It blocks irrelevant data from transitioning to the next step, ensuring only verified data is used for reasoning.
+
+### 🔄 Dynamic Correction Feedback Loop
+Triggered by structural information voids or planning errors, this loop utilizes LangGraph's cyclic structure.
+
+![Dynamic Feedback Loop](./image/Dynamic%20Feedback%20Loop.png)
+*Figure 2. Dynamic Correction Feedback Loop between Planner and Reasoner.*
+
+**Correction Triggers:**
+* Exceeding retry thresholds without valid information extraction.
+* Failure to find decisive evidence despite exhausting accessible documents.
+
+**Advanced State Control Strategies:**
+* **State Preservation**: Freezes and preserves successfully verified facts during re-planning.
+* **Search Space Reset**: Re-initializes the status of 'irrelevant' documents for the failed step to allow re-discovery.
+* **Inference with Partial Information**: Combines secured partial data with logical elimination to derive the best possible answer.
 
 ## 📂 Repository Structure
 ```text
